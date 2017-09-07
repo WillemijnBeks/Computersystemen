@@ -201,8 +201,16 @@ int fitsBits(int x, int n) {
  *   Max ops: 24
  *   Rating: 3
  */
-int isGreater(int x, int y) {
-  return 2;
+int isGreater(int x, int y) {  
+  int x_mask = x >> 31;
+  int y_mask = y >> 31;
+  int diff_sign = !!(x_mask ^ y_mask) & !x_mask;
+  int diff_sign2 = !!(x_mask ^ y_mask) & !y_mask;
+  
+  int same_sign = y + (~x + 1); 
+  same_sign = !!(same_sign >> 31);
+  
+  return (!diff_sign2 & (diff_sign | same_sign));  
 }
 
 
