@@ -189,8 +189,34 @@ int upperBits(int n) {
  *   Rating: 2
  */
 int fitsBits(int x, int n) {
+    int mask_zero = 0 << 31;
+    int mask_positive = 1 << 30;
 
-    return 2;
+    int min_check = 1 << 31;
+
+    int edge = !!(min_check & x) | !(1 << 6 & n); // n == 32
+    /*
+    // Positive Case
+    int test = x >> (n - 1);    
+    int test_pos = !(test_pos & mask_zero);
+
+    // Nog Fixen
+    // Negative Case
+    int neg_mask = 1 << 31;
+    int test_neg = x ^ neg_mask;
+    test_neg = test_neg >> (n - 1);
+    test_neg = !(test_neg & mask_zero);
+    */
+
+    // Algemeen
+    int test = x & mask_positive;
+    test = x >> (n - 1);    
+    test = !(test & mask_zero);
+    // Edge case bij int min
+
+
+    return (!edge & test);
+    
 }
 
 
@@ -210,7 +236,7 @@ int isGreater(int x, int y) {
   int same_sign = y + (~x + 1); 
   same_sign = !!(same_sign >> 31);
   
-  return (!diff_sign2 & (diff_sign | same_sign));  
+  return ( (!diff_sign2) & (diff_sign | same_sign));  
 }
 
 
