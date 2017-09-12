@@ -189,34 +189,31 @@ int upperBits(int n) {
  *   Rating: 2
  */
 int fitsBits(int x, int n) {
-    int mask_zero = 0 << 31;
-    int mask_positive = 1 << 30;
-
-    int min_check = 1 << 31;
-
-    int edge = !!(min_check & x) | !(1 << 6 & n); // n == 32
-    /*
-    // Positive Case
-    int test = x >> (n - 1);    
-    int test_pos = !(test_pos & mask_zero);
-
-    // Nog Fixen
-    // Negative Case
-    int neg_mask = 1 << 31;
-    int test_neg = x ^ neg_mask;
-    test_neg = test_neg >> (n - 1);
-    test_neg = !(test_neg & mask_zero);
-    */
-
-    // Algemeen
-    int test = x & mask_positive;
-    test = x >> (n - 1);    
-    test = !(test & mask_zero);
-    // Edge case bij int min
-
-
-    return (!edge & test);
     
+    
+    /*int temp_x = x >> (32 + (~n + 1));
+    printf("temp_x= %d\n", temp_x );
+    int mask_check = x >> 31;
+    printf("mask_check = %d\n", mask_check );
+    int solution = !(mask_check ^ temp_x);
+    printf("solution = %d\n", solution );
+    */
+    
+    
+    /*
+    int zero_case = !(~0 & x);
+    int one_bit_case = !!(~1 & n);
+    int max_bit_case = !(~32 & n);
+    */    
+    
+    int shifts = 32 + (~n + 1); //32 bits - the bits you have
+    int mask_check = x << shifts;
+    mask_check = mask_check >> shifts;
+    int solution = !(mask_check ^ x);    
+
+    //int zero_case = !(0 ^ n);
+
+    return (solution & !zero_case);
 }
 
 
